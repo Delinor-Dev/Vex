@@ -6,4 +6,5 @@
 #include "miniz.h"
 #include <filesystem>
 
-bool m_Save(std::string&, std::string&, std::string&, std::string&);
+//сжатие папки в zip
+bool m_Save(const std::string&, const std::string&, const std::string&, const std::string&);

@@ -7,7 +7,7 @@ const    std::string& inpath,
 const    std::string& outpath)
 {
     //добавляем все файлы в строковый массив путей
-    std::string zipname = name + "_" + version + ".zip";
+    std::string zipname = name + "@" + version + ".zip";
     std::vector<std::string> files;
     
     for (const auto& entry : std::filesystem::recursive_directory_iterator(inpath)) {

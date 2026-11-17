@@ -38,6 +38,5 @@ const    std::string& outpath)
 
     mz_zip_writer_finalize_archive(&zip);
     mz_zip_writer_end(&zip);
-
     return true;
 }

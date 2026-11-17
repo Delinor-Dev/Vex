@@ -8,6 +8,8 @@ class Parser {
 friend int main();
 public:
 Parser(std::string p_path);
+~Parser();
+Project* current;
 bool translate();
 
 private:

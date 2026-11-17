@@ -1,4 +1,0 @@
-project(".", "/work_ssd/Проекты 10.10.2026-х.х.х/Vex/zips")
-save("test", "v1.1.0")
-project("./pr", "/work_ssd/Проекты 10.10.2026-х.х.х/Vex/zips")
-open("test", "v1.1.0")

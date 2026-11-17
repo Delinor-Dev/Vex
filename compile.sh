@@ -1,0 +1,1 @@
+g++ core/src/loader.cpp core/src/miniz.c core/src/saver.cpp core/src/scanner.cpp CI/src/cooperation.cpp CI/src/translator.cpp -o test -O2 -std=c++17

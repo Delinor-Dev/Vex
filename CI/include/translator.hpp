@@ -3,13 +3,12 @@
 #include "cooperation.hpp"
 #include <fstream>
 #include <unordered_map>
+#include <memory>
 
 class Parser {
-friend int main();
 public:
 Parser(std::string p_path);
-~Parser();
-Project* current;
+std::unique_ptr<Project> current;
 bool translate();
 
 private:
@@ -18,5 +17,6 @@ std::vector<std::string> command;
 std::unordered_map<std::string, int> valid;
 int getTokens(std::string line);
 bool isValid();
-void _do();
+bool _do(int);
+bool pr{false};
 };

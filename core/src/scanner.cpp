@@ -1,6 +1,7 @@
 #include "../include/scanner.hpp"
 
 void m_Scan(std::string inpath) {
+    int files = 0;
     for (const auto& entry : std::filesystem::directory_iterator(inpath)) {
         if (entry.is_regular_file()) {
             std::string filename = entry.path().stem().string();
@@ -17,9 +18,11 @@ void m_Scan(std::string inpath) {
                 }
             }
             if (isp){
-            std::cout << "Version: " << buffer << std::endl;}
+            std::cout << "Version: " << buffer << std::endl;
+            files++;}
         }
     }
+    if (!files) {std::cout << "No projects at " << inpath << "\n";}
 }
 
 std::string m_Find(

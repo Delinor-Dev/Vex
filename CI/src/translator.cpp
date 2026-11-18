@@ -12,9 +12,6 @@ valid["list"] = 0;
 current = nullptr;
 
 }
-Parser::~Parser(){
-    delete current;
-}
 
 int Parser::getTokens(std::string line) 
 {
@@ -64,39 +61,53 @@ return true;
 
 bool Parser::translate() 
 {
+    std::cout << "Welcome to Vex!\n";
     std::ifstream file(VexPath);
-    if (!file.is_open()) return false;
+    if (!file.is_open()) {std::cout << "Error opening file! Make sure that info.vex is in the current working directory.\n"; return false;}
     std::string line;
+    int counter{0};
     while (std::getline(file, line)) {
+        counter++;
         getTokens(line);
         if (isValid()){
-            _do();
+
+            if (!_do(counter)) {
+                file.close();
+                return false;
+            }
         }
+        else if (!isValid() && !command.empty()) {file.close(); std::cout << "Line " << counter << ":\nError reading line \"" << line << "\".\nPlease check syntax rules at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex\n"; return false;}
     }
     file.close();
     return true;
 }
-void Parser::_do() 
+
+bool Parser::_do(int counter)
 {
 std::string current_command = command[0];
 
 if (current_command == "project") {
-delete current;
-current = new Project("", "", command[1], command[2]);
+pr = true;
+current = std::make_unique<Project>("", "", command[1], command[2]);
 }
-else if (current_command == "save") {
+else if (current_command == "save" && pr) {
 current->change(command[1], command[2]);
 current->save();
 }
-else if (current_command == "open") {
+else if (current_command == "open" && pr) {
 current->change(command[1], command[2]);
 current->load();
 }
-else if (current_command == "delete") {
+else if (current_command == "delete" && pr) {
 current->change(command[1], command[2]);
 current->_delete();
 }
-else if (current_command == "list") {
+else if (current_command == "list" && pr) {
 current->scan();
 }
+else {
+    std::cout << "Line: " << counter << "\nError! Run 'project' command first.\nMore info at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex"; 
+    exit(1);
+}
+return true;
 }

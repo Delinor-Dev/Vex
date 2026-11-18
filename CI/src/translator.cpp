@@ -100,8 +100,3 @@ else if (current_command == "list") {
 current->scan();
 }
 }
-
-int main(){
-    Parser p("/work_ssd/Проекты 10.10.2026-х.х.х/Vex/info.vex");
-    p.translate();
-}

@@ -1,6 +1,6 @@
 #include "CI/include/translator.hpp"
 
 int main(){
-Parser parser(".");
+Parser parser("./info.vex");
 parser.translate();
 }

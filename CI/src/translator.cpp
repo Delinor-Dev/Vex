@@ -102,12 +102,18 @@ current->change(command[1], command[2]);
 if (!current->load()) {
     std::cout << "Line " << counter << ": " << line << "\nOpen error! Check that the project exists!";
     return false;
+}}
+else if (current_command == "load" && pr) {
+current->change(command[1], command[2], command[3]);
+if (!current->loadf()) {
+    std::cout << "Line " << counter << ": " << line << "\nOpen error! Check that the project exists!";
+    return false;
 }
 }
 else if (current_command == "delete" && pr) {
 current->change(command[1], command[2]);
 if (!current->_delete()) {
-    std::cout << "Line " << counter << ": " << line << "\nDelete error! Check that the project exists!";
+    std::cout << "Line " << counter << ": " << line << "\nDelete error! Check that the file exists!";
     return false;
 }
 }

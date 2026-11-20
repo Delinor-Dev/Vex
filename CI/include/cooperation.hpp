@@ -13,13 +13,16 @@ Project(std::string pname, std::string pversion, std::string pdir_path, std::str
 static void scan();
 bool save();
 void change(std::string, std::string);
+void change(std::string, std::string, std::string);
 bool load();
+bool loadf();
 bool _delete();
 static void cd(std::string, std::string);
 
 private:
 std::string name;
 std::string version;
+std::string file;
 inline static std::string dir_path;
 inline static std::string mainPath;
 };

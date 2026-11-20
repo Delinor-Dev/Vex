@@ -24,6 +24,9 @@ bool Project::load()
 {
 return m_Load(name, version, mainPath, dir_path);
 }
+bool Project::loadf(){
+    return m_Load(name, version, mainPath, dir_path, file);
+}
 
 void Project::cd(std::string pdir_path, std::string pmainPath) {
 dir_path = pdir_path;
@@ -33,6 +36,11 @@ mainPath = pmainPath;
 void Project::change(std::string namep, std::string versionp) {
 name = namep;
 version = versionp;
+}
+void Project::change(std::string namep, std::string versionp, std::string filep) {
+name = namep;
+version = versionp;
+file = filep;
 }
 
 bool Project::_delete() {

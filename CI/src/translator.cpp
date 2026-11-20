@@ -61,7 +61,6 @@ return true;
 
 bool Parser::translate() 
 {
-    std::cout << "Welcome to Vex!\n";
     std::ifstream file(VexPath);
     if (!file.is_open()) {std::cout << "Error opening file! Make sure that info.vex is in the current working directory.\n"; return false;}
     std::string line;
@@ -71,18 +70,19 @@ bool Parser::translate()
         getTokens(line);
         if (isValid()){
 
-            if (!_do(counter)) {
+            if (!_do(counter, line)) {
                 file.close();
                 return false;
             }
         }
-        else if (!isValid() && !command.empty()) {file.close(); std::cout << "Line " << counter << ":\nError reading line \"" << line << "\".\nPlease check syntax rules at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex\n"; return false;}
+        else if (!isValid() && !command.empty()) {file.close(); std::cout << "Line " << counter << ":\nUnknown command: \"" << line << "\".\nPlease check syntax rules at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex\n"; return false;}
     }
     file.close();
+    std::cout << "Success!";
     return true;
 }
-
-bool Parser::_do(int counter)
+ 
+bool Parser::_do(int counter, std::string& line)
 {
 std::string current_command = command[0];
 
@@ -92,22 +92,31 @@ current = std::make_unique<Project>("", "", command[1], command[2]);
 }
 else if (current_command == "save" && pr) {
 current->change(command[1], command[2]);
-current->save();
+if(!current->save()) {
+    std::cout << "Line " << counter << ": " << line << "\nSave error! Check that the specified directory exists!";
+    return false;
+}
 }
 else if (current_command == "open" && pr) {
 current->change(command[1], command[2]);
-current->load();
+if (!current->load()) {
+    std::cout << "Line " << counter << ": " << line << "\nOpen error! Check that the project exists!";
+    return false;
+}
 }
 else if (current_command == "delete" && pr) {
 current->change(command[1], command[2]);
-current->_delete();
+if (!current->_delete()) {
+    std::cout << "Line " << counter << ": " << line << "\nDelete error! Check that the project exists!";
+    return false;
+}
 }
 else if (current_command == "list" && pr) {
 current->scan();
 }
 else {
-    std::cout << "Line: " << counter << "\nError! Run 'project' command first.\nMore info at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex"; 
-    exit(1);
+    std::cout << "Line: " << counter << ": " << line << "\nError! Run 'project' command first.\nMore info at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex"; 
+    return false;
 }
 return true;
 }

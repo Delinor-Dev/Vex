@@ -12,17 +12,17 @@ mainPath = pmainPath;
 
 void Project::scan() 
 {
-m_Scan(dir_path);
+m_Scan(mainPath);
 }
 
-void Project::save()
+bool Project::save()
 {
-m_Save(name, version, dir_path, mainPath);
+return m_Save(name, version, dir_path, mainPath);
 }
 
-void Project::load()
+bool Project::load()
 {
-m_Load(name, version, mainPath, dir_path);
+return m_Load(name, version, mainPath, dir_path);
 }
 
 void Project::cd(std::string pdir_path, std::string pmainPath) {
@@ -35,8 +35,8 @@ name = namep;
 version = versionp;
 }
 
-void Project::_delete() {
+bool Project::_delete() {
 std::string zipname = name + "@" + version + ".zip";
 std::filesystem::path full = std::filesystem::path(dir_path) / zipname;
-std::filesystem::remove(full);
+return std::filesystem::remove(full);
 }

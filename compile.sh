@@ -1,1 +1,1 @@
-g++ main.cpp core/src/loader.cpp core/src/miniz.c core/src/saver.cpp core/src/scanner.cpp CI/src/cooperation.cpp CI/src/translator.cpp -o Vex -O2 -static -std=c++17
+g++ main.cpp core/src/loader.cpp core/src/miniz.c core/src/saver.cpp core/src/scanner.cpp CI/src/cooperation.cpp CI/src/translator.cpp -o Vex -O3 -static -std=c++17

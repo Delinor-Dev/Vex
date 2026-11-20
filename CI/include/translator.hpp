@@ -17,6 +17,6 @@ std::vector<std::string> command;
 std::unordered_map<std::string, int> valid;
 int getTokens(std::string line);
 bool isValid();
-bool _do(int);
+bool _do(int, std::string&);
 bool pr{false};
 };

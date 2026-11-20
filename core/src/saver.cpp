@@ -24,7 +24,6 @@ const    std::string& outpath)
     memset(&zip, 0, sizeof(zip));
     if (!mz_zip_writer_init_file(&zip, full.string().c_str(), 0)) {
         mz_zip_error err = mz_zip_get_last_error(&zip);
-        std::cout << "Ошибка записи:" << mz_zip_get_error_string(err) << " " << full.string();
         return 0;
     }
 

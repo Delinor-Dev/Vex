@@ -15,7 +15,6 @@ const    std::string& outpath)
     std::filesystem::path full = std::filesystem::path(inpath) / file;
     if (!mz_zip_reader_init_file(&zip, full.string().c_str(), 0)) {
         mz_zip_error err = mz_zip_get_last_error(&zip);
-        std::cout << "Ошибка чтения: " << mz_zip_get_error_string(err) << " " << full.string();
         return false;
     }
     mz_uint count = mz_zip_reader_get_num_files(&zip);

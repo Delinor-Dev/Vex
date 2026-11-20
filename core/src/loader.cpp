@@ -65,8 +65,7 @@ const    std::string& filename
         std::filesystem::path enp(stat.m_filename);
         bool isdir = mz_zip_reader_is_file_a_directory(&zip, i);
         std::filesystem::path clean = isdir ? enp.parent_path() : enp;
-        std::cout << clean << "\n";
-        if (clean == target){
+        if (clean.generic_string() == target.generic_string()){
             
         std::filesystem::path dest = std::filesystem::path(outpath) / target.filename();
         if (isdir) {
@@ -81,7 +80,7 @@ const    std::string& filename
         extr = true;
 
         }
-        else if (clean.string().rfind(target.string() + "/", 0) == 0) {
+        else if (!target.empty() && clean.generic_string().rfind(target.generic_string() + "/", 0) == 0) {
 
         std::filesystem::path rel = std::filesystem::relative(clean, target);
         std::filesystem::path dest = std::filesystem::path(outpath) / target.filename() / rel;
@@ -96,8 +95,8 @@ const    std::string& filename
         }
         extr = true;
         }
-        mz_zip_reader_end(&zip);
     }
+    mz_zip_reader_end(&zip);
 
     return extr;
 }

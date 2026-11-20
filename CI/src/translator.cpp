@@ -72,13 +72,14 @@ bool Parser::translate()
 
             if (!_do(counter, line)) {
                 file.close();
+                std::cout << "\n";
                 return false;
             }
         }
         else if (!isValid() && !command.empty()) {file.close(); std::cout << "Line " << counter << ":\nUnknown command: \"" << line << "\".\nPlease check syntax rules at https://github.com/Delinor-Dev/Vex/blob/main/README.md#infovex\n"; return false;}
     }
     file.close();
-    std::cout << "Success!";
+    std::cout << "Success!\n";
     return true;
 }
  

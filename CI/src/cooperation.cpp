@@ -9,7 +9,10 @@ Project::Project(std::string pname, std::string pversion, std::string pdir_path,
 dir_path = pdir_path;
 mainPath = pmainPath;
 }
-
+std::filesystem::path Project::getfolder() {
+    std::filesystem::path path{dir_path};
+    return path;
+}
 void Project::scan() 
 {
 m_Scan(mainPath);
@@ -18,6 +21,10 @@ m_Scan(mainPath);
 bool Project::save()
 {
 return m_Save(name, version, dir_path, mainPath);
+}
+bool Project::savem() 
+{
+return m_Save(name, version, dir_path, mainPath, commit); 
 }
 
 bool Project::load()
@@ -42,7 +49,11 @@ name = namep;
 version = versionp;
 file = filep;
 }
-
+void Project::changec(std::string namep, std::string versionp, std::string commitp) {
+name = namep;
+version = versionp;
+commit = commitp;
+}
 bool Project::_delete() {
 std::string zipname = name + "@" + version + ".zip";
 std::filesystem::path full = std::filesystem::path(dir_path) / zipname;

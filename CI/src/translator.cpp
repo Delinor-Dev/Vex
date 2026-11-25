@@ -5,10 +5,12 @@ Parser::Parser(std::string p_path) : VexPath(p_path)
 valid["project"] = 2;
 valid["ignore"] = 1;
 valid["save"] = 2;
+valid["savem"] = 3;
 valid["open"] = 2;
 valid["load"] = 3;
 valid["delete"] = 2;
 valid["list"] = 0;
+valid["info"] = 2;
 current = nullptr;
 
 }
@@ -96,6 +98,12 @@ current->change(command[1], command[2]);
 if(!current->save()) {
     std::cout << "Line " << counter << ": " << line << "\nSave error! Check that the specified directory exists!";
     return false;
+}}
+else if (current_command == "savem" && pr) {
+current->changec(command[1], command[2], command[3]);
+if(!current->savem()) {
+    std::cout << "Line " << counter << ": " << line << "\nSave error! Check that the specified directory exists!";
+    return false;
 }
 }
 else if (current_command == "open" && pr) {
@@ -107,7 +115,7 @@ if (!current->load()) {
 else if (current_command == "load" && pr) {
 current->change(command[1], command[2], command[3]);
 if (!current->loadf()) {
-    std::cout << "Line " << counter << ": " << line << "\nOpen error! Check that the project exists!";
+    std::cout << "Line " << counter << ": " << line << "\nOpen error! Check that the file exists!";
     return false;
 }
 }
@@ -116,7 +124,24 @@ current->change(command[1], command[2]);
 if (!current->_delete()) {
     std::cout << "Line " << counter << ": " << line << "\nDelete error! Check that the file exists!";
     return false;
+}}
+else if (current_command == "info" && pr) {
+current->change(command[1], command[2], "metaVex.txt");
+if (current->loadf()) { 
+    std::cout << "Info("<<command[1] << ", " <<command[2] << "): ";
+    std::string infile;
+    std::filesystem::path tometa = current->getfolder() / "metaVex.txt";
+    std::fstream file(tometa, std::ios::in);
+
+    std::getline(file, infile);
+    file.close();
+    std::filesystem::remove(tometa);
+    std::cout << infile << std::endl;
+} else {
+    std::cout << "Line " << counter << ": " << line << "\nRead error! Check if the project was saved with a comment.";
+    return false;
 }
+
 }
 else if (current_command == "list" && pr) {
 current->scan();

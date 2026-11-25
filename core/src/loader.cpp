@@ -19,6 +19,7 @@ const    std::string& outpath)
     for (mz_uint i = 0; i < count; i++){
         mz_zip_archive_file_stat stat;
         if (!mz_zip_reader_file_stat(&zip, i, &stat)) continue;
+        if (std::string(stat.m_filename) == "metaVex.txt") continue;
         std::filesystem::path dest = std::filesystem::path(outpath) / stat.m_filename;
 
         if (mz_zip_reader_is_file_a_directory(&zip, i)) {
@@ -62,6 +63,8 @@ const    std::string& filename
     for (mz_uint i = 0; i < count; i++){
         mz_zip_archive_file_stat stat;
         if (!mz_zip_reader_file_stat(&zip, i, &stat)) continue;
+
+
         std::filesystem::path enp(stat.m_filename);
         bool isdir = mz_zip_reader_is_file_a_directory(&zip, i);
         std::filesystem::path clean = isdir ? enp.parent_path() : enp;

@@ -14,15 +14,19 @@ static void scan();
 bool save();
 void change(std::string, std::string);
 void change(std::string, std::string, std::string);
+void changec(std::string, std::string, std::string);
+bool savem();
 bool load();
 bool loadf();
 bool _delete();
+std::filesystem::path getfolder();
 static void cd(std::string, std::string);
 
 private:
 std::string name;
 std::string version;
 std::string file;
+std::string commit;
 inline static std::string dir_path;
 inline static std::string mainPath;
 };

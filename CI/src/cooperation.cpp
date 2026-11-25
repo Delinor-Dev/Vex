@@ -13,6 +13,9 @@ std::filesystem::path Project::getfolder() {
     std::filesystem::path path{dir_path};
     return path;
 }
+void Project::ignore(std::string path){
+    ignorelist.push_back(path);
+}
 void Project::scan() 
 {
 m_Scan(mainPath);
@@ -20,11 +23,11 @@ m_Scan(mainPath);
 
 bool Project::save()
 {
-return m_Save(name, version, dir_path, mainPath);
+return m_Save(name, version, dir_path, mainPath, ignorelist);
 }
 bool Project::savem() 
 {
-return m_Save(name, version, dir_path, mainPath, commit); 
+return m_Save(name, version, dir_path, mainPath, ignorelist, commit); 
 }
 
 bool Project::load()

@@ -4,7 +4,8 @@ bool m_Save(
 const    std::string& name, 
 const    std::string& version,
 const    std::string& inpath,
-const    std::string& outpath)
+const    std::string& outpath,
+const    std::vector<std::string>& ignorelist)
 {
     std::string zipname = name + "@" + version + ".zip";
     std::filesystem::path full = std::filesystem::path(outpath) / zipname;
@@ -12,9 +13,10 @@ const    std::string& outpath)
     std::vector<std::pair<std::string, std::string>> files;
 
     for (const auto& entry : std::filesystem::recursive_directory_iterator(inpath)) {
-        if (entry.is_regular_file()) {
+        std::string path = std::filesystem::relative(entry.path(), inpath).generic_string();
+        if (entry.is_regular_file() && std::find(ignorelist.begin(), ignorelist.end(), path) == ignorelist.end()) {
             files.push_back({
-                std::filesystem::relative(entry.path(), inpath).generic_string(),
+                path,
                 entry.path().string()
             });
         }
@@ -44,6 +46,7 @@ const    std::string& name,
 const    std::string& version,
 const    std::string& inpath,
 const    std::string& outpath,
+const    std::vector<std::string>& ignorelist,
 const    std::string& commit) {
     std::string zipname = name + "@" + version + ".zip";
     std::filesystem::path full = std::filesystem::path(outpath) / zipname;
@@ -54,9 +57,10 @@ const    std::string& commit) {
     outFile << commit;
     outFile.close();
     for (const auto& entry : std::filesystem::recursive_directory_iterator(inpath)) {
-        if (entry.is_regular_file()) {
+        std::string path = std::filesystem::relative(entry.path(), inpath).generic_string();
+        if (entry.is_regular_file() && std::find(ignorelist.begin(), ignorelist.end(), path) == ignorelist.end()) {
             files.push_back({
-                std::filesystem::relative(entry.path(), inpath).generic_string(),
+                path,
                 entry.path().string()
             });
         }

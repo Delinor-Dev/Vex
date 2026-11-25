@@ -11,6 +11,7 @@ valid["load"] = 3;
 valid["delete"] = 2;
 valid["list"] = 0;
 valid["info"] = 2;
+
 current = nullptr;
 
 }
@@ -92,6 +93,8 @@ std::string current_command = command[0];
 if (current_command == "project") {
 pr = true;
 current = std::make_unique<Project>("", "", command[1], command[2]);
+} else if (current_command == "ignore" && pr) {
+current->ignore(command[1]);
 }
 else if (current_command == "save" && pr) {
 current->change(command[1], command[2]);
